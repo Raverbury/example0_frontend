@@ -2,6 +2,8 @@
 import { VForm, VTextField, VBtn, VSheet } from 'vuetify/components'
 import validator from 'validator'
 import { ref } from 'vue';
+import { useMutation, useQuery } from '@vue/apollo-composable'
+import gql from 'graphql-tag';
 
 const usernameValue = ref('')
 const usernameRules = [
@@ -12,7 +14,7 @@ const usernameRules = [
         return (validator.isAscii(usernameText) && validator.isAlphanumeric(usernameText)) || 'Username must contain only alphanumeric characters'
     },
     (usernameText: string) => {
-        const usernameLength = {max: 256}
+        const usernameLength = { max: 256 }
         return validator.isLength(usernameText, usernameLength) || `Username cannot be longer than ${usernameLength.max} characters`
     }
 ]
@@ -39,19 +41,36 @@ const passwordRules = [
     },
 ]
 
+const { mutate: sendMessage, loading, error, onDone } = useMutation(gql`
+    mutation register ($email: String!, $username: String!, $password: String!) {
+        createUser (email: $email, name: $username, password: $password) {
+            id
+            name
+            email
+        }
+    }
+`)
+
+onDone((result) => {
+    alert(result.data?.createUser.id)
+})
+
 </script>
 
 <template>
-    <h1><slot>Sign up now</slot></h1><br/>
+    <h1>
+        <slot>Sign up now</slot>
+    </h1><br />
     <VSheet :height="'70vh'" :width="'50vw'">
-        <VForm fast-fail @submit.prevent>
+        <VForm fast-fail
+            @submit.prevent="sendMessage({ email: emailValue, username: usernameValue, password: passwordValue })">
             <VTextField v-model="usernameValue" :rules="usernameRules" label="Username"></VTextField>
             <VTextField v-model="emailValue" :rules="emailRules" label="Email"></VTextField>
             <VTextField v-model="passwordValue" :rules="passwordRules" label="Password"
                 :type="showPassword ? 'text' : 'password'" :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                 counter @click:append="showPassword = !showPassword">
             </VTextField>
-            <VBtn type="submit" block>Sign up</VBtn>
+            <VBtn type="submit">Sign up</VBtn>
         </VForm>
     </VSheet>
 </template>
