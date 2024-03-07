@@ -16,6 +16,8 @@ import * as directives from 'vuetify/directives'
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 
+// import '../node_modules/bootstrap/dist/css/bootstrap.css';
+
 // HTTP connection to the API
 const httpLink = createHttpLink({
     // You should use an absolute URL here

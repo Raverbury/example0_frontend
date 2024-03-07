@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { VForm, VTextField, VBtn, VSheet } from 'vuetify/components'
 import validator from 'validator'
 import { ref } from 'vue';
 import { useMutation, useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag';
+import { useAlertStore } from '@/stores/alert'
+import { useAuthStore } from '@/stores/auth';
 
 const usernameValue = ref('')
 const usernameRules = [
@@ -41,18 +42,32 @@ const passwordRules = [
     },
 ]
 
+const alertStore = useAlertStore()
+const authStore = useAuthStore()
+
 const { mutate: sendMessage, loading, error, onDone } = useMutation(gql`
-    mutation register ($email: String!, $username: String!, $password: String!) {
+    mutation registerAndLogin ($email: String!, $username: String!, $password: String!) {
         createUser (email: $email, name: $username, password: $password) {
             id
             name
             email
         }
+        logIn (email: $email, password: $password) {
+            token
+            user {
+                id
+                name
+                email
+            }
+        }
     }
 `)
 
 onDone((result) => {
-    alert(result.data?.createUser.id)
+    // alert(result.data?.createUser.id)
+    // alert(result.data?.logIn.token)
+    alertStore.setAlert(`Registration successful, your token is ${result.data?.logIn.token || 'error'}`)
+    authStore.setAuth(result.data?.logIn.token, result.data?.logIn.user)
 })
 
 </script>
@@ -61,16 +76,16 @@ onDone((result) => {
     <h1>
         <slot>Sign up now</slot>
     </h1><br />
-    <VSheet :height="'70vh'" :width="'50vw'">
-        <VForm fast-fail
+    <v-sheet :height="'70vh'" :width="'50vw'">
+        <v-form fast-fail
             @submit.prevent="sendMessage({ email: emailValue, username: usernameValue, password: passwordValue })">
-            <VTextField v-model="usernameValue" :rules="usernameRules" label="Username"></VTextField>
-            <VTextField v-model="emailValue" :rules="emailRules" label="Email"></VTextField>
-            <VTextField v-model="passwordValue" :rules="passwordRules" label="Password"
+            <v-text-field v-model="usernameValue" :rules="usernameRules" label="Username" type="text"></v-text-field>
+            <v-text-field v-model="emailValue" :rules="emailRules" label="Email"></v-text-field>
+            <v-text-field v-model="passwordValue" :rules="passwordRules" label="Password"
                 :type="showPassword ? 'text' : 'password'" :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                 counter @click:append="showPassword = !showPassword">
-            </VTextField>
-            <VBtn type="submit">Sign up</VBtn>
-        </VForm>
-    </VSheet>
+            </v-text-field>
+            <v-btn type="submit">Sign up</v-btn>
+        </v-form>
+    </v-sheet>
 </template>
