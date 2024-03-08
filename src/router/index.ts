@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '@/views/HomeView.vue'
 import ErrorView from '@/views/ErrorView.vue'
 
 const router = createRouter({
@@ -19,9 +19,24 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LogInView.vue')
+    },
+    {
       path: '/register',
       name: 'register',
       component: () => import('../views/RegisterView.vue')
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: () => import('../views/LogOutView.vue')
+    },
+    {
+      path: '/todo/:id',
+      name: 'todo',
+      component: () => import('../views/TodoView.vue')
     },
     { path: '/:pathMatch(.*)*', name: 'Error', component: ErrorView },
   ]

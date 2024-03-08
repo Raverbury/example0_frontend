@@ -18,10 +18,22 @@ import { DefaultApolloClient } from '@vue/apollo-composable'
 
 // import '../node_modules/bootstrap/dist/css/bootstrap.css';
 
+function makeHeaders() {
+    const headers: { 'Authorization'?: string; 'Content-Type'?: string } = {}
+    const authToken: string | null = localStorage.getItem('authUserToken')
+    headers['Authorization'] = authToken ? `Bearer ${authToken}` : ''
+    headers['Content-Type'] = 'application/json'
+    return headers
+}
+
 // HTTP connection to the API
 const httpLink = createHttpLink({
     // You should use an absolute URL here
     uri: 'http://localhost:8000/graphql',
+    fetch: (input: RequestInfo | URL, init: RequestInit | undefined) => {
+        if (init) { init.headers = makeHeaders() }
+        return fetch(input, init)
+    }
 })
 
 // Cache implementation

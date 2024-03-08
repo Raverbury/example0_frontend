@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterView } from 'vue-router'
 import AlertPopup from './components/AlertPopup.vue';
 import AppBar from './components/AppBar.vue';
 </script>
 
 <template>
   <v-layout>
-
 
     <AppBar></AppBar>
 
@@ -27,11 +25,13 @@ import AppBar from './components/AppBar.vue';
 
     <v-main>
       <AlertPopup></AlertPopup>
-      <RouterView v-slot="{ Component }">
-        <Transition name="fade">
-          <component :is="Component" />
-        </Transition>
-      </RouterView>
+      <main>
+        <RouterView v-slot="{ Component }">
+          <Transition name="fade">
+            <component :is="Component" />
+          </Transition>
+        </RouterView>
+      </main>
     </v-main>
   </v-layout>
 </template>
