@@ -3,5 +3,7 @@ import RegisterForm from '@/components/RegisterForm.vue';
 </script>
 
 <template>
-    <RegisterForm>Create your account</RegisterForm>
+    <div>
+        <RegisterForm>Create your account</RegisterForm>
+    </div>
 </template>

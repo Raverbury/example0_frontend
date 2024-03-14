@@ -9,3 +9,9 @@ authStore.setAuth('', { email: '', name: '', id: '' })
 router.replace('/')
 
 </script>
+
+<template>
+    <div>
+        <h2>Logging out...</h2>
+    </div>
+</template>

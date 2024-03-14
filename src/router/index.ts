@@ -20,7 +20,7 @@ const router = createRouter({
     },
     {
       path: '/login',
-      name: 'login',
+      name: 'log_in',
       component: () => import('../views/LogInView.vue')
     },
     {
@@ -30,12 +30,22 @@ const router = createRouter({
     },
     {
       path: '/logout',
-      name: 'logout',
+      name: 'log_out',
       component: () => import('../views/LogOutView.vue')
     },
     {
+      path: '/todos/new',
+      name: 'create_todo',
+      component: () => import('../views/CreateTodoView.vue')
+    },
+    {
+      path: '/todos',
+      name: 'view_public_todo',
+      component: () => import('../views/PublicTodoView.vue')
+    },
+    {
       path: '/todo/:id',
-      name: 'todo',
+      name: 'view_todo',
       component: () => import('../views/TodoView.vue')
     },
     { path: '/:pathMatch(.*)*', name: 'Error', component: ErrorView },

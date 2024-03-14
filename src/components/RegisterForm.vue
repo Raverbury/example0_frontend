@@ -75,6 +75,7 @@ onDone((result) => {
     apolloClient.client.refetchQueries({
         include: ['getMe']
     })
+    alertStore.setAlert('You have registered a new account.')
     router.push('/')
 })
 

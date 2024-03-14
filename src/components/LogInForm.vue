@@ -53,6 +53,7 @@ onDone((result) => {
         include: ['getMe']
     })
     router.push('/')
+    alertStore.setAlert('You are now logged in.')
 })
 
 onError((param, ctx) => {

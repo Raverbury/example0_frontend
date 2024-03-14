@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
 import AlertPopup from './components/AlertPopup.vue';
 import AppBar from './components/AppBar.vue';
+
+const route = useRoute()
+
 </script>
 
 <template>
-  <v-layout>
+  <v-app>
+    <v-layout>
 
-    <AppBar></AppBar>
+      <AppBar></AppBar>
 
-    <!-- <header>
+      <!-- <header>
       <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
       <div class="wrapper">
@@ -23,17 +27,24 @@ import AppBar from './components/AppBar.vue';
       <a href="/" class="v-btn">Hello</a>
     </header> -->
 
-    <v-main>
-      <AlertPopup></AlertPopup>
-      <main>
-        <RouterView v-slot="{ Component }">
-          <Transition name="fade">
-            <component :is="Component" />
-          </Transition>
-        </RouterView>
-      </main>
-    </v-main>
-  </v-layout>
+      <v-main>
+        <AlertPopup></AlertPopup>
+        <main>
+          <v-card>
+            <v-container>
+              <RouterView v-slot="{ Component }">
+                <div :key="String(route.name)">
+                  <Transition name="fade">
+                    <component :is="Component" />
+                  </Transition>
+                </div>
+              </RouterView>
+            </v-container>
+          </v-card>
+        </main>
+      </v-main>
+    </v-layout>
+  </v-app>
 </template>
 
 <!-- <style scoped>
