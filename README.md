@@ -1,3 +1,15 @@
+## Setup
+
+- Install npm packages with
+```sh
+npm install
+```
+- Make an .env file, fill in VITE_GRAPHQL_API with your GraphQL endpoint, typically http://localhost:8000/graphql if used in tandem with my example0_backend project
+- Run the development server with
+```sh
+npm run dev
+```
+
 # vue_test
 
 This template should help get you started developing with Vue 3 in Vite.
